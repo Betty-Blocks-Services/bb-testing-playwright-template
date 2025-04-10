@@ -3,6 +3,7 @@ import type { Locator } from "playwright";
 import type {
   PdfPage,
   readPdfPages as ReadPdfPagesType,
+  ReadPdfTextParams,
 } from "pdf-text-reader";
 
 /**
@@ -13,15 +14,15 @@ export class PdfHelper {
   /**
    * Extracts text pages from a given PDF file path.
    *
-   * @param pdfPath - The path or URL to the PDF file.
+   * @param params - The parameters to use.
    * @returns A promise that resolves to an array of PDF page objects.
    */
   static async extractPagesFromPdf(
-    pdfPath: string | { url: string },
+    params: ReadPdfTextParams,
   ): Promise<PdfPage[]> {
     const { readPdfPages }: { readPdfPages: typeof ReadPdfPagesType } =
       await import("pdf-text-reader");
-    const pages = await readPdfPages(pdfPath);
+    const pages = await readPdfPages(params);
     return pages;
   }
 
