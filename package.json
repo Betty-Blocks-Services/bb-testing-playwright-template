@@ -2,16 +2,29 @@
   "name": "bb-playwright-testing-template",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "trunk": "trunk",
+    "lint": "trunk check --show-existing",
+    "lint:fix": "trunk check --fix --show-existing",
+    "sync": "git pull && (git diff --quiet && git diff --cached --quiet && git ls-files --others --exclude-standard) || (git add . && git commit -m 'sync' && git push)"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.51.1",
-    "@types/node": "^22.14.0"
+    "@types/node": "^22.14.0",
+    "@trunkio/launcher": "^1.3.4",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0"
   },
   "dependencies": {
     "pdf-text-reader": "^5.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
