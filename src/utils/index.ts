@@ -1,5 +1,5 @@
 import { AuthHelper } from "./auth";
 import { PdfHelper } from "./pdf";
-import { PlaywrightHelper } from "./playwright";
+import { Director } from "./director/";
 
-export { AuthHelper, PdfHelper, PlaywrightHelper };
+export { AuthHelper, PdfHelper, Director };

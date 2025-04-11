@@ -6,10 +6,30 @@ A minimal, ready-to-use Playwright testing setup for easy cloning and use by the
 
 ```bash
 npm install
-npx playwright test
 ```
 
-## Run UI Mode
+## Creating Tests
+
+### Setup Files
+
+A setup file can be run as a dependency for your tests.
+
+> **Example**
+> If your app is secured with an authentication profile, the tester needs to be logged in before it can execute tasks in the application.
+> Instead of recording the login process each time, you can create a `auth.setup.ts` in which you define the login process.
+
+You can declare a setup as dependency per test in `playwright.config.ts`.
+
+Check this [`auth.setup.ts` example]()
+
+Read more: [Playwright - Global setup and teardown](https://playwright.dev/docs/test-global-setup-teardown)
+
+## Running Tests
+
+> [!NOTE]
+> If you wish to test on a sandbox, enable `Public testing` in your sandbox configurations
+
+You can run your tests via the terminal:
 
 ```bash
 npx playwright test --ui
@@ -22,34 +42,6 @@ This project provides a set of helper utilities written in **TypeScript** to str
 - 🧪 Clicking and asserting in Playwright (`PlaywrightHelper`)
 - 📄 Extracting and reading PDF files (`PdfHelper`)
 - 🔐 Working with JWTs and auth files (`AuthHelper`)
-
----
-
-### 🧪 PlaywrightHelper
-
-```ts
-import { PlaywrightHelper } from "./helpers/PlaywrightHelper";
-import { test } from "@playwright/test";
-
-test("Example click test", async ({ page }) => {
-  const button = page.locator("text=Submit");
-
-  await PlaywrightHelper.clickToExpect(page, button, {
-    waitNetwork: true,
-    submit: true,
-    delay: 200,
-  });
-});
-```
-
-### Options
-
-| Option        | Type      | Description                                   |
-| ------------- | --------- | --------------------------------------------- |
-| `waitNetwork` | `boolean` | Wait for `networkidle` before and after click |
-| `hasHref`     | `boolean` | Expect an `href` attribute on the element     |
-| `submit`      | `boolean` | Expect the element to have type `submit`      |
-| `delay`       | `number`  | Delay (ms) before clicking                    |
 
 ---
 
