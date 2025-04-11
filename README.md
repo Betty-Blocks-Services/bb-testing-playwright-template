@@ -47,8 +47,6 @@ This project provides a set of helper utilities written in **TypeScript** to str
 
 ---
 
-### 🗄️ Director
-
 ### 📄 PdfHelper
 
 ```ts
