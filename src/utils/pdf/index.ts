@@ -35,12 +35,10 @@ export class PdfHelper {
    * @returns A promise that resolves to an array of extracted PDF pages.
    */
   static async fetchPdfPages(page: Page, locator: Locator): Promise<PdfPage[]> {
-    const downloadPromise = page.waitForEvent("download");
-
     await page.waitForTimeout(1000);
     await locator.click();
 
-    const download = await downloadPromise;
+    const download = await page.waitForEvent("download");
     const fileUrl = `./.tmp/${Date.now()}_${download.suggestedFilename()}`;
 
     await download.saveAs(fileUrl);

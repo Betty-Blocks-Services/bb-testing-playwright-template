@@ -9,9 +9,8 @@
  */
 
 import { test as setup, expect } from "@playwright/test";
-import { promises as fs } from "fs";
 import path from "path";
-import { AuthHelper, Director } from "../utils";
+import { AuthHelper, Director } from "../src/utils";
 
 const authDir = path.join(__dirname, "../playwright/.auth");
 const authFile = path.join(authDir, "user.json");
@@ -20,7 +19,9 @@ setup("authenticate", async ({ page }) => {
   const makeAppURL = (path?: string) => {
     return `${process.env.APP_URL || ""}${path}`;
   };
-  Director.removeDir("./.tmp");
+
+  Director.removeDir(Director.tmpPath);
+
   const jwtToken = await AuthHelper.getJwtTokenFromJson(authFile, makeAppURL());
 
   if (!AuthHelper.isJwtExpired(jwtToken)) {

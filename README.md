@@ -20,7 +20,7 @@ A setup file can be run as a dependency for your tests.
 
 You can declare a setup as dependency per test in `playwright.config.ts`.
 
-Check this [`auth.setup.ts` example]()
+Check this [`auth.setup.ts` example](./samples/auth.setup.ts)
 
 Read more: [Playwright - Global setup and teardown](https://playwright.dev/docs/test-global-setup-teardown)
 
@@ -32,18 +32,22 @@ Read more: [Playwright - Global setup and teardown](https://playwright.dev/docs/
 You can run your tests via the terminal:
 
 ```bash
+# This will open the Playwright Testing App
 npx playwright test --ui
 ```
+
+Or with the VSCode Playwright extension.
 
 ## 🔧 Test Utilities & PDF Helpers
 
 This project provides a set of helper utilities written in **TypeScript** to streamline common testing and PDF-processing tasks. It includes helpers for:
 
-- 🧪 Clicking and asserting in Playwright (`PlaywrightHelper`)
 - 📄 Extracting and reading PDF files (`PdfHelper`)
 - 🔐 Working with JWTs and auth files (`AuthHelper`)
 
 ---
+
+### 🗄️ Director
 
 ### 📄 PdfHelper
 
@@ -62,10 +66,29 @@ const lines = PdfHelper.extractTextFromPage(pages, 0);
 
 ---
 
+### 🗄️ Director
+
+The `Director()` class provides functions functions for managing (downloaded) files.
+
+```TypeScript
+import { Director } from "../utils/index"
+
+test("downloading file", async () => {
+  // logic to download a file
+  // E.g.: Click a button
+
+  const pathToFile = await Director.waitForDownload(page);
+})
+```
+
 ### 🔐 AuthHelper
 
+The `AuthHelper()` class provides functions for authenticating with your application.
+
+An example usage can be found in [`auth.setup.ts`](./samples/auth.setup.ts)
+
 ```ts
-import { AuthHelper } from "./helpers/AuthHelper";
+import { AuthHelper } from "../utils/index";
 
 // Check if a token is expired
 const expired = AuthHelper.isJwtExpired(myJwt);
@@ -85,7 +108,6 @@ const token = await AuthHelper.getJwtTokenFromJson(
 │   └── utils
 │       ├── auth
 │       ├── pdf
-│       └── playwright
 ```
 
 ---
