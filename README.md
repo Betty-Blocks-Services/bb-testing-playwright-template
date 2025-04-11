@@ -10,6 +10,8 @@ npm install
 
 ## Creating Tests
 
+You can write tests in both `.ts` and `.js`.
+
 ### Setup Files
 
 A setup file can be run as a dependency for your tests.
@@ -33,7 +35,7 @@ You can run your tests via the terminal:
 
 ```bash
 # This will open the Playwright Testing App
-npx playwright test --ui
+npm test
 ```
 
 Or with the VSCode Playwright extension.
