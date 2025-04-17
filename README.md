@@ -49,10 +49,93 @@ This project provides a set of helper utilities written in **TypeScript** to str
 
 ---
 
+### Config
+
+The `Config()` class provides functions to read and store config variables across tests.
+This class extends `ConfigBase` which already makes sure to create/load the config.json.
+
+This allows you to, for instance, chain setup files to fetch a `deviceToken` from the first setup and use it in the second setup.
+You can read more about this at [What is a setup?]()
+
+```TypeScript
+
+import { config } from "../utils"
+
+const deviceToken = config.deviceToken;
+```
+
+> [!IMPORTANT]
+> To use the config, always import `config` and not the class `Config`.
+> This is to ensure the config.json is properly loaded during testing.
+
+#### Editing your config
+
+Feel free to edit the config values for your tests in [`./src/utils/config/index.ts`](./src/utils/config/index.ts).
+
+##### (Optional) Defining the `IConfig` interface
+
+You can define the key/value types for your config by editing the `interface IConfig`:
+
+```TypeScript
+export interface IConfig {
+  someValue: string; // Or any if you want to loosely check for types.
+}
+```
+
+##### Default values:
+
+You can define default values in your config by editing the `DEFAULT_CONFIG` variable:
+
+```TypeScript
+// Without type checking
+const DEFUALT_CONFIG = {
+  soemValue: String()
+}
+
+// With IConfig interface
+const DEFAULT_CONFIG: IConfig = {
+  someValue: String()
+}
+```
+
+##### Reading values
+
+To read values from your config, you need to create `get()` accessors in the `Config()` class:
+
+```TypeScript
+// DO
+// Create a get function to fetch the value from the config.
+get someValue() {
+  return this.config.someValue
+}
+// Then use it:
+const someValue = config.someValue;
+
+// DON'T
+const someValue = config.config.someValue;
+```
+
+By defining `get()` functions, you can parse or combine config values before they're used in the test.
+On top of that, your code is clean and easily maintainable. Neat, right!?
+
+##### Defining custom config files.
+
+If you really need to have separate config files, you can instantiate add a new export at the bottom of [`./src/utils/config/index.ts`](./src/utils/config/index.ts).
+
+```TypeScript
+// Example
+export const config = new Config();
+export const myCustomConfig = new Config("config-name.json")
+```
+
+This will create a `config-name.json` with the same configuration but can store different values.
+
+---
+
 ### 📄 PdfHelper
 
 ```ts
-import { PdfHelper } from "./helpers/PdfHelper";
+import { PdfHelper } from "../utils";
 
 // Extract pages from a PDF
 const pages = await PdfHelper.extractPagesFromPdf("myfile.pdf");
@@ -68,16 +151,17 @@ const lines = PdfHelper.extractTextFromPage(pages, 0);
 
 ### 🗄️ Director
 
-The `Director()` class provides functions functions for managing (downloaded) files.
+The `Director()` class provides functions for managing files and directories.
 
 ```TypeScript
-import { Director } from "../utils/index"
+import { Director } from "../utils"
 
 test("downloading file", async () => {
   // logic to download a file
   // E.g.: Click a button
 
   const pathToFile = await Director.waitForDownload(page);
+  const fileContent = Director.readFile(pathToFile, "utf-8")
 })
 ```
 
@@ -88,7 +172,7 @@ The `AuthHelper()` class provides functions for authenticating with your applica
 An example usage can be found in [`auth.setup.ts`](./samples/auth.setup.ts)
 
 ```ts
-import { AuthHelper } from "../utils/index";
+import { AuthHelper } from "../utils";
 
 // Check if a token is expired
 const expired = AuthHelper.isJwtExpired(myJwt);
