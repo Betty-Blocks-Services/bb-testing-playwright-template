@@ -2,6 +2,9 @@
   "name": "bb-playwright-testing-template",
   "version": "1.0.0",
   "main": "index.js",
+  "cpu": [
+    "test"
+  ],
   "scripts": {
     "test": "npx playwright test --ui",
     "trunk": "trunk",
