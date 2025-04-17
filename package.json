@@ -7,6 +7,7 @@
     "trunk": "trunk",
     "lint": "trunk check --show-existing",
     "lint:fix": "trunk check --fix --show-existing",
+    "update": "chmod +x ./scripts/update-template.sh && ./scripts/update-template.sh",
     "sync": "git pull && (git diff --quiet && git diff --cached --quiet && git ls-files --others --exclude-standard) || (git status && echo \"\r---- Adding changes and committing ----\r\r\" && git add . && git commit -m 'sync' && git push)"
   },
   "keywords": [],
