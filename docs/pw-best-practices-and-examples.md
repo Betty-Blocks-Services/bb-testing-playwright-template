@@ -19,7 +19,7 @@ Create a separate directory for each role:
 
 ## Creating Setup Scripts
 
-In the folder `./src/tests/setup`, create two new files:
+Create your setup files in `./src/tests/setup`:
 
 **Example**:
 
@@ -33,7 +33,7 @@ We define each role's setup and project in `playwright.config.ts`:
 ```TypeScript
 // playwright.config.ts
 export default defineConfig({
-    // ....
+    // Other config settings...
     projects: [
     // Define setup:
     {
@@ -56,12 +56,13 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
       dependencies: ["setup auth user"],
     },
+    // Other browsers...
 ]
 ```
 
 ---
 
-## Setup Order (Chain Setup)
+## Setup Order/Chain
 
 Sometimes you might need to execute one setup after the other.
 
@@ -80,7 +81,7 @@ Defining each setup in the dependencies array will not work and should generally
 {
   name: "myName",
   use: { ...devices["Desktop Chrome"] },
-  dependencies: ["setup auth admin","setup auth user"],
+  dependencies: ["setup auth admin", "setup auth user"],
 },
 ```
 
