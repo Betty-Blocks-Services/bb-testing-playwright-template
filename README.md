@@ -4,7 +4,7 @@ A minimal, ready-to-use Playwright testing setup for easy cloning and use by the
 
 ## Getting Started
 
-Check out our best practices at [**./docs/pw-best-practices-and-examples.md**](./docs/pw-best-practices-and-examples.md).
+Check out our best practices at [Playwright - Best Practices & Examples](./docs/playwright/pw-best-practices-and-examples.md).
 
 1. Install the dependencies
 
@@ -22,7 +22,7 @@ If your tests do not appear, use the 🔄 Refresh button:
 
 You want to define environment variables such as usernames and passwords in a `.env` file.
 
-We've already included a base starting point for you at [`./.env.example`](./.env.example).
+We've already included a base starting point for you at [`.env.example`](./.env.example).
 Rename this to `.env`, edit the variables and your good to go!
 
 > [!NOTE]
@@ -68,152 +68,6 @@ This project provides a set of helper utilities written in **TypeScript** to str
 - 🔐 Working with JWTs and auth files (`AuthHelper`)
 
 ---
-
-### Config
-
-The `Config()` class allows you to store/read values across tests and setups.
-When it is run for the first time, it creates a config.json to read/write values to.
-
-> [!IMPORTANT]
-> Any files created by the `Config()` class should be included in the .gitignore to prevent sharing sensitive information!
-> The default` config.json` is already included
-
-This class extends the `ConfigBase()` class which already makes sure to create/load the config.json.
-
-#### Usage
-
-```TypeScript
-
-import { config } from "../utils"
-
-const deviceToken = config.deviceToken;
-```
-
-#### Editing the Config
-
-Feel free to edit the `Config()` class to your needs!
-You can find it at [`./src/utils/config/index.ts`](./src/utils/config/index.ts).
-
-##### - (Optional) Defining the `IConfig` interface
-
-You can define the your config by editing the `interface IConfig`:
-
-```TypeScript
-export interface IConfig {
-  someValue: string; // Or 'any' if you want to loosely check for types.
-}
-```
-
-##### - Default values:
-
-It's important to define default values in your config.
-You can do this by editing the `DEFAULT_CONFIG` variable:
-
-```TypeScript
-// Without type checking
-const DEFUALT_CONFIG = {
-  someValue: String()
-}
-
-// With IConfig interface
-const DEFAULT_CONFIG: IConfig = {
-  someValue: String()
-}
-```
-
-##### - Reading values
-
-To read values from your config, you need to create `get()` accessors in the `Config()` class:
-
-```TypeScript
-// Create a get function to fetch the value from the config.
-export class Config {
-  // ...
-
-  get someValue() {
-    return this.config.someValue
-  }
-}
-// Then use it:
-const someValue = config.someValue;
-
-// DON'T DO
-const someValue = config.config.someValue;
-```
-
-By defining `get()` functions, you can parse or combine config values before they're used in the test.
-On top of that, your code is clean and easily maintainable. Neat, right!?
-
-##### - Defining custom config files.
-
-If you really need to have separate config files, you can instantiate add a new export at the bottom of [`./src/utils/config/index.ts`](./src/utils/config/index.ts).
-
-```TypeScript
-// Example
-export const config = new Config();
-export const myCustomConfig = new Config("config-name.json")
-```
-
-This will create a `config-name.json` with the same configuration but can store different values.
-
----
-
-### 📄 PdfHelper
-
-The `PDFHelper()` class provides functions for downloading and extracting contents
-
-```ts
-import { PdfHelper } from "../utils";
-
-// Trigger the download by click a button for example
-await page.locator("button", { hasText: "Download" }).click();
-
-// Use the Director to wait for the download and store the file in a temporary path.
-const downloadedPDF = await Director.waitForDownload();
-
-// Extracts text pages from a given PDF file path.
-const pdfPages = await PdfHelper.extractPagesFromPdf(downloadedPDF);
-
-// Extracts non-empty lines of text from a specific page in the PDF.
-const lines = PdfHelper.extractTextFromPage(pages, 0);
-```
-
----
-
-### 🗄️ Director
-
-The `Director()` class provides functions for managing files and directories.
-
-```TypeScript
-import { Director } from "../utils"
-
-test("downloading file", async () => {
-  // logic to download a file
-  // E.g.: Click a button
-
-  const pathToFile = await Director.waitForDownload(page);
-  const fileContent = Director.readFile(pathToFile, "utf-8")
-})
-```
-
-### 🔐 AuthHelper
-
-The `AuthHelper()` class provides functions for authenticating with your application.
-
-An example usage can be found in [`auth.setup.ts`](./samples/auth.setup.ts)
-
-```ts
-import { AuthHelper } from "../utils";
-
-// Check if a token is expired
-const expired = AuthHelper.isJwtExpired(myJwt);
-
-// Get a JWT token from a JSON file based on origin
-const token = await AuthHelper.getJwtTokenFromJson(
-  "./auth.json",
-  "https://myapp.com",
-);
-```
 
 ## 📁 File Structure
 

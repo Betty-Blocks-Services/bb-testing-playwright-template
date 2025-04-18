@@ -46,7 +46,7 @@ export class Director {
     filePath: string,
     contents: string,
     options?: fs.WriteFileOptions,
-  ) {
+  ): Promise<void> {
     this.makeDir(path.resolve(path.dirname(filePath)), {
       recursive: true,
     });
@@ -66,7 +66,7 @@ export class Director {
   static readFile(
     filePath: string,
     options: ReadSyncOptions = { encoding: "utf-8" },
-  ) {
+  ): string | false | Buffer<ArrayBufferLike> {
     if (this.pathExists(filePath)) {
       return fs.readFileSync(filePath, options);
     }
@@ -133,7 +133,7 @@ export class Director {
    * Simple function to check if a path is accessible by the file system (it exists).
    * @param p - The path to the file
    */
-  static pathExists(p: string) {
+  static pathExists(p: string): boolean {
     return fs.existsSync(p);
   }
 }

@@ -1,5 +1,6 @@
 import { AuthHelper } from "./auth";
-import { PdfHelper } from "./pdf";
+import config from "./config";
 import { Director } from "./director/";
+import { PdfHelper } from "./pdf";
 
-export { AuthHelper, PdfHelper, Director };
+export { AuthHelper, PdfHelper, Director, config };

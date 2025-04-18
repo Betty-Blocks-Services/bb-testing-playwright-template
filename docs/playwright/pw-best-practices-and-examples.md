@@ -116,3 +116,36 @@ export default defineConfig({
     },
 ]
 ```
+
+---
+
+## Reading from `localStorage`
+
+```TypeScript
+const language = await page.evaluate((localStorageKey) =>
+  localStorage.getItem(localStorageKey),
+  "keyOfItem",
+)
+```
+
+---
+
+## Writing to `localStorage`
+
+```TypeScript
+// We basically define a script to execute when the page is intialized
+await page.addInitScript(
+  // When the page has loaded, execute ... with variables ...
+  ([key, deviceToken]) => {
+    window.localStorage.setItem(key, deviceToken);
+  },
+  ["keyOfItem", deviceToken], // Variables to use in the script
+);
+
+// You can also use page.context() to execute this script on all pages.
+await page.context().addInitScript(
+  ([myVariables]) => {
+    // ... Do something
+  },
+  ["someValue"], );
+```

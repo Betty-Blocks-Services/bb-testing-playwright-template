@@ -6,7 +6,7 @@ import ConfigBase from "./base";
  * Edit this interface to define the keys in your configuration.
  */
 export interface IConfig {
-  someValueFromConfig: string;
+  jwt: string;
 }
 
 /**
@@ -20,7 +20,7 @@ export interface IConfig {
  * const DEFAULT_CONFIG: any = ...
  */
 export const DEFAULT_CONFIG: IConfig = {
-  someValueFromConfig: String(),
+  jwt: String(),
 };
 
 export class Config extends ConfigBase {
@@ -28,8 +28,8 @@ export class Config extends ConfigBase {
    * Example function to get a value from the loaded config.
    * Define these for every value in your config
    */
-  get someValueFromConfig() {
-    return this.config?.someValueFromConfig;
+  get jwt() {
+    return this.config?.jwt;
   }
 }
 

@@ -1,7 +1,7 @@
 /*
  * To use this file:
  *
- * 1. Copy into src/tests
+ * 1. Copy into src/tests/setup
  * 2. Uncomment the lines at 'projects' in playwright.config.ts
  * 3. Configure the .env file
  * 4. Adjust this file to your apps specific's
@@ -10,7 +10,7 @@
 
 import { test as setup, expect } from "@playwright/test";
 import path from "path";
-import { AuthHelper, Director } from "../src/utils";
+import { AuthHelper, config, Director } from "../src/utils";
 
 const authDir = path.join(__dirname, "../playwright/.auth");
 const authFile = path.join(authDir, "user.json");
@@ -22,7 +22,7 @@ setup("authenticate", async ({ page }) => {
 
   Director.removeDir(Director.tmpPath);
 
-  const jwtToken = await AuthHelper.getJwtTokenFromJson(authFile, makeAppURL());
+  const jwtToken = config.jwt;
 
   if (!AuthHelper.isJwtExpired(jwtToken)) {
     return;
@@ -43,6 +43,7 @@ setup("authenticate", async ({ page }) => {
 
   await page.waitForLoadState("networkidle"); // Wait for form to process
   await page.waitForURL(makeAppURL("/home"));
+  await page.waitForLoadState("networkidle"); // Wait for datacontainers to load
 
   /*
    * If your app has 2FA, you need to add additional steps here
