@@ -68,11 +68,7 @@ export class AuthHelper {
       `Logging in as: ${payloadObj.user_id} with roles: ${payloadObj.roles}`,
     );
 
-    if (isExpired) {
-      console.log("Token expired, need to log in again..");
-    } else {
-      console.log("Session not expired, skipping login");
-    }
+    console.log(`Token is ${isExpired ? "" : "not"} expired`);
 
     return isExpired;
   }

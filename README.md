@@ -16,23 +16,39 @@ If your tests do not appear, use the 🔄 Refresh button:
 
 ![vscode_no_tests_found](./public/vscode_no_tests_found.jpg)
 
+## Environment variables
+
+You want to define environment variables such as usernames and passwords in a `.env` file.
+
+We've already included a base starting point for you at [`./.env.example`](./.env.example).
+Rename this to `.env`, edit the variables and your good to go!
+
+> [!NOTE]
+> The `.env` file is included in gitignore to prevent sharing sensitive information online
+
 ## Creating Tests
 
 You can write tests in both `.ts` and `.js`.
 
 ### Setup Files
 
-A setup file can be run as a dependency for your tests.
+A `setup` is a script which **runs before** each project where it is declared as a `dependency`.
 
 > **Example**
 > If your app is secured with an authentication profile, the tester needs to be logged in before it can execute tasks in the application.
-> Instead of recording the login process each time, you can create a `auth.setup.ts` in which you define the login process.
+> Instead of recording the login process each time, you can create an `auth.setup.ts` in which you define the login process.
 
 You can declare a setup as dependency for each project in `playwright.config.ts`.
 
 Check this [`auth.setup.ts` example](./samples/auth.setup.ts) which runs a simple login task.
 
-Read more: [Playwright - Global setup and teardown](https://playwright.dev/docs/test-global-setup-teardown)
+Read more official documentation: [Playwright - Global setup and teardown](https://playwright.dev/docs/test-global-setup-teardown)
+
+#### Setup Concept's (Recommended)
+
+We've documented a couple setup concept's to help you get familiar with the Playwright's setup method.
+
+Check them out: [Playwright - Testing Setup Concepts]()
 
 ## Running Tests
 
@@ -59,11 +75,16 @@ This project provides a set of helper utilities written in **TypeScript** to str
 
 ### Config
 
-The `Config()` class provides functions to read and store config variables across tests.
-This class extends `ConfigBase` which already makes sure to create/load the config.json.
+The `Config()` class allows you to store/read values across tests and setups.
+When it is run for the first time, it creates a config.json to read/write values to.
 
-This allows you to, for instance, chain setup files to fetch a `deviceToken` from the first setup and use it in the second setup.
-You can read more about this at [What is a setup?]()
+> [!IMPORTANT]
+> Any files created by the `Config()` class should be included in the .gitignore to prevent sharing sensitive information!
+> The default` config.json` is already included
+
+This class extends the `ConfigBase()` class which already makes sure to create/load the config.json.
+
+#### Usage
 
 ```TypeScript
 
@@ -72,32 +93,30 @@ import { config } from "../utils"
 const deviceToken = config.deviceToken;
 ```
 
-> [!IMPORTANT]
-> To use the config, always import `config` and not the class `Config`.
-> This is to ensure the config.json is properly loaded during testing.
+#### Editing the Config
 
-#### Editing your config
+Feel free to edit the `Config()` class to your needs!
+You can find it at [`./src/utils/config/index.ts`](./src/utils/config/index.ts).
 
-Feel free to edit the config values for your tests in [`./src/utils/config/index.ts`](./src/utils/config/index.ts).
+##### - (Optional) Defining the `IConfig` interface
 
-##### (Optional) Defining the `IConfig` interface
-
-You can define the key/value types for your config by editing the `interface IConfig`:
+You can define the your config by editing the `interface IConfig`:
 
 ```TypeScript
 export interface IConfig {
-  someValue: string; // Or any if you want to loosely check for types.
+  someValue: string; // Or 'any' if you want to loosely check for types.
 }
 ```
 
-##### Default values:
+##### - Default values:
 
-You can define default values in your config by editing the `DEFAULT_CONFIG` variable:
+It's important to define default values in your config.
+You can do this by editing the `DEFAULT_CONFIG` variable:
 
 ```TypeScript
 // Without type checking
 const DEFUALT_CONFIG = {
-  soemValue: String()
+  someValue: String()
 }
 
 // With IConfig interface
@@ -106,27 +125,30 @@ const DEFAULT_CONFIG: IConfig = {
 }
 ```
 
-##### Reading values
+##### - Reading values
 
 To read values from your config, you need to create `get()` accessors in the `Config()` class:
 
 ```TypeScript
-// DO
 // Create a get function to fetch the value from the config.
-get someValue() {
-  return this.config.someValue
+export class Config {
+  // ...
+
+  get someValue() {
+    return this.config.someValue
+  }
 }
 // Then use it:
 const someValue = config.someValue;
 
-// DON'T
+// DON'T DO
 const someValue = config.config.someValue;
 ```
 
 By defining `get()` functions, you can parse or combine config values before they're used in the test.
 On top of that, your code is clean and easily maintainable. Neat, right!?
 
-##### Defining custom config files.
+##### - Defining custom config files.
 
 If you really need to have separate config files, you can instantiate add a new export at the bottom of [`./src/utils/config/index.ts`](./src/utils/config/index.ts).
 
@@ -142,16 +164,21 @@ This will create a `config-name.json` with the same configuration but can store 
 
 ### 📄 PdfHelper
 
+The `PDFHelper()` class provides functions for downloading and extracting contents
+
 ```ts
 import { PdfHelper } from "../utils";
 
-// Extract pages from a PDF
-const pages = await PdfHelper.extractPagesFromPdf("myfile.pdf");
+// Trigger the download by click a button for example
+await page.locator("button", { hasText: "Download" }).click();
 
-// Get pages after triggering a browser download
-const pagesViaBrowser = await PdfHelper.fetchPdfPages(page, locator);
+// Use the Director to wait for the download and store the file in a temporary path.
+const downloadedPDF = await Director.waitForDownload();
 
-// Extract non-empty lines from page 1
+// Extracts text pages from a given PDF file path.
+const pdfPages = await PdfHelper.extractPagesFromPdf(downloadedPDF);
+
+// Extracts non-empty lines of text from a specific page in the PDF.
 const lines = PdfHelper.extractTextFromPage(pages, 0);
 ```
 
