@@ -75,12 +75,15 @@ It includes helpers for:
 
 ## 📁 File Structure
 
-```text
-├── src
-│   ├── tests
-│   └── utils
-│       ├── auth
-│       ├── pdf
+```bash
+src
+├── tests # Your tests go here
+│   └── setup # Additional setup files go here
+└── utils
+    ├── auth
+    ├── config
+    ├── director
+    └── pdf
 ```
 
 ---
