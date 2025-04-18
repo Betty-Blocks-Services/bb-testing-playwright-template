@@ -89,12 +89,20 @@ else
 	exit 1
 fi
 
-# Step 8: Push to origin
-if git push origin "$default_branch"; then
-	echo_success "✔ Pushed updates to origin/$default_branch."
+# Prompt before pushing
+echo_info "Would you like to push the merged changes to origin/$default_branch? (y/N)"
+read -r REPLY
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+	# Step 8: Push to origin
+	if git push origin "$default_branch"; then
+		echo_success "✔ Pushed updates to origin/$default_branch."
+	else
+		echo_error "Failed to push to origin/$default_branch."
+		exit 1
+	fi
 else
-	echo_error "Failed to push to origin/$default_branch."
-	exit 1
+	echo_info "Push skipped. You can push manually with:"
+	echo_info "  git push origin $default_branch"
 fi
 
 # Completion message
