@@ -4,6 +4,8 @@ A minimal, ready-to-use Playwright testing setup for easy cloning and use by the
 
 ## Getting Started
 
+Check out our best practices at [**./docs/pw-best-practices-and-examples.md**](./docs/pw-best-practices-and-examples.md).
+
 1. Install the dependencies
 
 ```bash
@@ -15,8 +17,6 @@ npm install
 If your tests do not appear, use the 🔄 Refresh button:
 
 ![vscode_no_tests_found](./public/vscode_no_tests_found.jpg)
-
-Check out our best practices at [**./docs/pw-best-practices-and-examples.md**](./docs/pw-best-practices-and-examples.md).
 
 ## Environment variables
 

@@ -85,10 +85,11 @@ Defining each setup in the dependencies array will not work and should generally
 ```
 
 Our app has two roles:
-| Role |
-| ------------- |
+
+| Role  |
+| ----- |
 | admin |
-| user |
+| user  |
 
 1. Define a setup script for each role in the `./src/tests` directory:
 
