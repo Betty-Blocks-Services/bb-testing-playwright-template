@@ -60,12 +60,16 @@ npm test
 
 Or with the VSCode Playwright extension.
 
-## 🔧 Test Utilities & PDF Helpers
+## 🔧 Utilities
 
-This project provides a set of helper utilities written in **TypeScript** to streamline common testing and PDF-processing tasks. It includes helpers for:
+This project provides a set of helper utilities to streamline common testing.
 
-- 📄 Extracting and reading PDF files (`PdfHelper`)
-- 🔐 Working with JWTs and auth files (`AuthHelper`)
+It includes helpers for:
+
+- 🔐 Working with JWTs ([AuthHelper](/docs/utils/auth-helper.md))
+- ⚙ Creating and managing configs ([Config](/docs/utils/config.md))
+- 🗄️ Managing the file system and downloaded files ([Director](/docs/utils/director.md))
+- 📄 Extracting and reading PDF files ([PdfHelper](/docs/utils/pdf-helper.md))
 
 ---
 
