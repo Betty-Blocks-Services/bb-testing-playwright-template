@@ -26,7 +26,7 @@ Create your setup files in `./src/tests/setup`:
 - `auth.setup.admin.ts`
 - `auth.setup.user.ts`
 
-### Edit `playwright.config.ts`
+`playwright.config.ts`
 
 We define each role's setup and project in `playwright.config.ts`:
 
@@ -85,25 +85,7 @@ Defining each setup in the dependencies array will not work and should generally
 },
 ```
 
-Our app has two roles:
-
-| Role  |
-| ----- |
-| admin |
-| user  |
-
-1. Define a setup script for each role in the `./src/tests` directory:
-
-```text
-# Example
-├── src
-│   ├── tests
-│       ├── setup
-│       ├── + admin
-│       ├── + user
-```
-
-2. Edit `playwright.config.ts`:
+`playwright.config.ts`:
 
 ```TypeScript
 // playwright.config.ts
@@ -119,8 +101,7 @@ export default defineConfig({
       name: "setup auth user",
       testMatch: /auth\.setup\.user\.ts/,
       /*
-      * We define 'setup auth admin' as a dependency for this project (setup).
-      * This makes sure that 'setup auth admin' is run before 'setup auth user'
+      * We define 'setup auth admin' as a dependency for 'setup auth user'.
       */
       dependcies: ["setup auth admin"]
     }
