@@ -4,9 +4,17 @@ A minimal, ready-to-use Playwright testing setup for easy cloning and use by the
 
 ## Getting Started
 
+1. Install the dependencies
+
 ```bash
 npm install
 ```
+
+2. Open the Test tab, your tests should appear.
+
+If your tests do not appear, use the 🔄 Refresh button:
+
+![vscode_no_tests_found](./public/vscode_no_tests_found.jpg)
 
 ## Creating Tests
 
@@ -20,9 +28,9 @@ A setup file can be run as a dependency for your tests.
 > If your app is secured with an authentication profile, the tester needs to be logged in before it can execute tasks in the application.
 > Instead of recording the login process each time, you can create a `auth.setup.ts` in which you define the login process.
 
-You can declare a setup as dependency per test in `playwright.config.ts`.
+You can declare a setup as dependency for each project in `playwright.config.ts`.
 
-Check this [`auth.setup.ts` example](./samples/auth.setup.ts)
+Check this [`auth.setup.ts` example](./samples/auth.setup.ts) which runs a simple login task.
 
 Read more: [Playwright - Global setup and teardown](https://playwright.dev/docs/test-global-setup-teardown)
 
