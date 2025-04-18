@@ -25,8 +25,8 @@ You want to define environment variables such as usernames and passwords in a `.
 We've already included a base starting point for you at [`.env.example`](./.env.example).
 Rename this to `.env`, edit the variables and your good to go!
 
-> [!NOTE]
-> The `.env` file is included in gitignore to prevent sharing sensitive information online
+> [!IMPORTANT]
+> The `.env` file should included in .gitignore to prevent sharing sensitive information online
 
 ## Creating Tests
 

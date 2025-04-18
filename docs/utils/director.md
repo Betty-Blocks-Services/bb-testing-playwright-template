@@ -2,7 +2,7 @@
 
 > Import and use Director to handle file system operations.
 
-## Importing the Config Singleton
+## Importing the Director
 
 ```TypeScript
 import { Director } from "../utils";

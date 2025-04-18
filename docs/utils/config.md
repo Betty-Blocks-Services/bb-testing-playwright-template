@@ -6,7 +6,7 @@ The `Config` class (in `src/utils/config/index.ts`) extends `ConfigBase` and man
 
 ---
 
-## Importing the Config Singleton
+## Importing the Config
 
 ```TypeScript
 import { config } from "../utils";
