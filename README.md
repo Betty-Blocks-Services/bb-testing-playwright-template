@@ -16,6 +16,8 @@ If your tests do not appear, use the 🔄 Refresh button:
 
 ![vscode_no_tests_found](./public/vscode_no_tests_found.jpg)
 
+Check out our best practices at [**./docs/pw-best-practices-and-examples.md**](./docs/pw-best-practices-and-examples.md).
+
 ## Environment variables
 
 You want to define environment variables such as usernames and passwords in a `.env` file.
@@ -43,12 +45,6 @@ You can declare a setup as dependency for each project in `playwright.config.ts`
 Check this [`auth.setup.ts` example](./samples/auth.setup.ts) which runs a simple login task.
 
 Read more official documentation: [Playwright - Global setup and teardown](https://playwright.dev/docs/test-global-setup-teardown)
-
-#### Setup Concept's (Recommended)
-
-We've documented a couple setup concept's to help you get familiar with the Playwright's setup method.
-
-Check them out: [Playwright - Testing Setup Concepts]()
 
 ## Running Tests
 
