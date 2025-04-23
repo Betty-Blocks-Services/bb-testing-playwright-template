@@ -103,7 +103,7 @@ export default defineConfig({
       /*
       * We define 'setup auth admin' as a dependency for 'setup auth user'.
       */
-      dependcies: ["setup auth admin"]
+      dependencies: ["setup auth admin"]
     }
     // Define test projects
     {

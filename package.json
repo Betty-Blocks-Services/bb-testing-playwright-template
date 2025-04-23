@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test --ui",
+    "codegen": "playwright codegen",
+    "test": "playwright test --ui",
     "trunk": "trunk",
     "lint": "trunk check --show-existing",
     "lint:fix": "trunk check --fix --show-existing",
