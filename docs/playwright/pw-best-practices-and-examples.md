@@ -8,18 +8,18 @@ Create a separate directory for each role:
 
 ```text
 # Example
-├── src
-│   ├── tests
-│       ├── setup
-│       ├── + admin
-│       ├── + user
+├── src/
+│   ├── admin/
+│   │     ├── setup/
+│   │     ├── tests/
+│   ├── user/
+│   │     ├── setup/
+│   │     ├── tests/
 ```
 
 ---
 
 ## Creating Setup Scripts
-
-Create your setup files in `./src/tests/setup`:
 
 **Example**:
 
@@ -35,28 +35,21 @@ We define each role's setup and project in `playwright.config.ts`:
 export default defineConfig({
     // Other config settings...
     projects: [
-    // Define setup:
     {
-      name: "setup auth admin",
-      testMatch: /auth\.setup\.admin\.ts/,
+      name: "admin-login",
+      testMatch: "admin-login.spec.ts",
+      testDir: "src/admin/setup",
+      metadata: { type: "setup" },
+      dependencies: [],
     },
-    {
-      name: "setup auth user",
-      testMatch: /auth\.setup\.user\.ts/,
-    }
-
-    // Define projects
     {
       name: "admin",
-      use: { ...devices["Desktop Chrome"] },
-      dependencies: ["setup auth admin"],
+      dependencies: [
+        "admin-login"
+      ],
+      testDir: "src/admin/tests",
+      metadata: { type: "suite" },
     },
-    {
-      name: "user",
-      use: { ...devices["Desktop Chrome"] },
-      dependencies: ["setup auth user"],
-    },
-    // Other browsers...
 ]
 ```
 
@@ -77,7 +70,7 @@ Defining each setup in the dependencies array will not work and should generally
 ```TypeScript
 // playwright.config.ts
 
-// DON'T DO THIS
+// These dependencies will run parallel
 {
   name: "myName",
   use: { ...devices["Desktop Chrome"] },
@@ -89,30 +82,49 @@ Defining each setup in the dependencies array will not work and should generally
 
 ```TypeScript
 // playwright.config.ts
+
+// This setup ensures that when running our 'user'-suite, we:
+// 1. First login as admin with 'admin-login'
+// 2. Then login as user with 'user-login'
+// 3. Then run the suite itself
 export default defineConfig({
     // ....
     projects: [
-    // Setup files:
+    // First define our suites:
     {
-      name: "setup auth admin",
-      testMatch: /auth\.setup\.admin\.ts/,
+      name: "admin",
+      dependencies: [
+        "admin-login"
+      ],
+      testDir: "src/admin/tests",
+      metadata: { type: "suite" },
     },
     {
-      name: "setup auth user",
-      testMatch: /auth\.setup\.user\.ts/,
-      /*
-      * We define 'setup auth admin' as a dependency for 'setup auth user'.
-      */
-      dependencies: ["setup auth admin"]
-    }
-    // Define test projects
+      name: "user",
+      dependencies: [
+        // This suite needs 'user-login' to run
+        "user-login"
+      ],
+      testDir: "src/user/tests",
+      metadata: { type: "suite" },
+    },
+    // Setup:
     {
-      name: "test-user",
-      use: { ...devices["Desktop Chrome"] },
-      /*
-      * Then we define 'setup auth user' as a dependency to run for this project.
-      */
-      dependencies: ["setup auth user"],
+      name: "user-login",
+      testMatch: "user-login.spec.ts",
+      testDir: "src/user/setup",
+      metadata: { type: "setup" },
+      dependencies: [
+      // Here we define that 'admin-login' needs to run before 'user-login'
+      "admin-login"
+      ],
+    },
+    {
+      name: "admin-login",
+      testMatch: "admin-login.spec.ts",
+      testDir: "src/admin/setup",
+      metadata: { type: "setup" },
+      dependencies: [],
     },
 ]
 ```

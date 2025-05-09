@@ -20,7 +20,7 @@ If your tests do not appear, use the 🔄 Refresh button:
 
 ## Environment variables
 
-You want to define environment variables such as usernames and passwords in a `.env` file.
+You want to define as much environment variables as possible, such as usernames and passwords, in a `.env` file.
 
 We've already included a base starting point for you at [`.env.example`](./.env.example).
 Rename this to `.env`, edit the variables and your good to go!
