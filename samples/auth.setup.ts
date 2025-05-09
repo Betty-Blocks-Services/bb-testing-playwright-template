@@ -8,25 +8,12 @@
  *
  */
 
-import { test as setup, expect } from "@playwright/test";
-import path from "path";
-import { AuthHelper, config, Director } from "../src/utils";
-
-const authDir = path.join(__dirname, "../playwright/.auth");
-const authFile = path.join(authDir, "user.json");
+import { test as setup } from "@playwright/test";
 
 setup("authenticate", async ({ page }) => {
   const makeAppURL = (path?: string) => {
     return `${process.env.APP_URL || ""}${path}`;
   };
-
-  Director.removeDir(Director.tmpPath);
-
-  const jwtToken = config.jwt;
-
-  if (!AuthHelper.isJwtExpired(jwtToken)) {
-    return;
-  }
 
   await page.goto(makeAppURL("/login"));
 
@@ -41,12 +28,11 @@ setup("authenticate", async ({ page }) => {
 
   await page.getByRole("button", { name: "Login" }).click();
 
-  await page.waitForLoadState("networkidle"); // Wait for form to process
   await page.waitForURL(makeAppURL("/home"));
   await page.waitForLoadState("networkidle"); // Wait for datacontainers to load
 
   /*
    * If your app has 2FA, you need to add additional steps here
    */
-  await page.context().storageState({ path: authFile });
+  await page.context().storageState({ path: "storage-stage.json" });
 });
