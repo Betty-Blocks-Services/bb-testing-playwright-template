@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "codegen": "playwright codegen",
-    "test": "playwright test --ui",
+    "test": "playwright test",
+    "test:ui": "playwright test",
     "trunk": "trunk",
     "lint": "trunk check --show-existing",
     "lint:fix": "trunk check --fix --show-existing",
@@ -24,6 +25,7 @@
   },
   "dependencies": {
     "dotenv": "^16.5.0",
+    "parse5": "^8.0.0",
     "pdf-text-reader": "^5.1.0"
   },
   "config": {

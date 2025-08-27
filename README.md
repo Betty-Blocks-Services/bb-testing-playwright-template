@@ -32,9 +32,9 @@ Rename this to `.env`, edit the variables and your good to go!
 
 You can write tests in both `.ts` and `.js`.
 
-### Setup Files
+### Dependencies
 
-A `setup` is a script which **runs before** each project where it is declared as a `dependency`.
+A `dependency` is actually a test which **runs before** each project where it is declared as a `dependency`.
 
 > **Example**
 > If your app is secured with an authentication profile, the tester needs to be logged in before it can execute tasks in the application.
@@ -46,6 +46,28 @@ Check this [`auth.setup.ts` example](./samples/auth.setup.ts) which runs a simpl
 
 Read more official documentation: [Playwright - Global setup and teardown](https://playwright.dev/docs/test-global-setup-teardown)
 
+#### Storage State
+
+When running a dependency you have to make sure that the browser's storage state is saved after, for example, a login:
+
+```TypeScript
+test("admin login", async ({ page }) => {
+  // Login logic
+  await page.context().storageState({ path: "storage-state.json" });
+});
+
+```
+
+You can then use this storage state in your test as follows:
+
+```TypeScript
+test.use({
+  storageState: 'storage-state.json'
+});
+```
+
+The storage state contains the browser's `session` and `localStorage` values.
+
 ## Running Tests
 
 > [!NOTE]
@@ -54,8 +76,9 @@ Read more official documentation: [Playwright - Global setup and teardown](https
 You can run your tests via the terminal:
 
 ```bash
-# This will open the Playwright Testing App
 npm test
+# or
+npm run test:ui # Opens the playwright testing app
 ```
 
 Or with the VSCode Playwright extension.
