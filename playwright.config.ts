@@ -50,7 +50,7 @@ export default defineConfig({
       testDir: "src/admin/tests",
       metadata: { type: "suite" },
     },
-  ],
+  ]
 
   /* Run your local dev server before starting the tests */
   // webServer: {
