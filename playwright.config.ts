@@ -25,11 +25,13 @@ export default defineConfig({
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: process.env.APP_URL || "",
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    screenshot: { mode: "off" },
+    trace: {
+      screenshots: true,
+      mode: "on",
+      snapshots: false,
+      attachments: false,
+    },
   },
 
   /* Configure projects for major browsers */
@@ -50,7 +52,7 @@ export default defineConfig({
       testDir: "src/admin/tests",
       metadata: { type: "suite" },
     },
-  ]
+  ],
 
   /* Run your local dev server before starting the tests */
   // webServer: {
