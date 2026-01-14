@@ -1,5 +1,3 @@
-import path from "path";
-import { Director } from "../director";
 import ConfigBase from "./base";
 
 /**

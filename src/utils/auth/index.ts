@@ -1,6 +1,3 @@
-import { readFile, writeFile, mkdir } from "fs/promises";
-import path from "path";
-
 /**
  * Utility class for handling authentication-related operations
  * such as managing JWT tokens and ensuring storage file integrity.

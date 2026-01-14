@@ -1,5 +1,3 @@
-import type { Page } from "playwright";
-import type { Locator } from "playwright";
 import type {
   PdfPage,
   readPdfPages as ReadPdfPagesType,
